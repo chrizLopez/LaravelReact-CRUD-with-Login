@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ReactTable from "react-table";
 
 export default class Home extends Component {
     constructor(){
@@ -7,7 +8,14 @@ export default class Home extends Component {
         this.state={
             categories:[]
         }
+        this.onSort = this.onSort.bind(this)
 
+    }
+
+    onSort(event, sortKey){
+        const data = this.state.categories;
+        data.sort((a,b) => a[sortKey].localeCompare(b[sortKey]))
+        this.setState({data})
     }
     
     componentDidMount()
@@ -25,11 +33,11 @@ export default class Home extends Component {
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Gender</th>
-                        <th scope="col">Description</th>
+                        <th scope="col" onClick={e => this.onSort(e, 'name')}>Name</th>
+                        <th scope="col" onClick={e => this.onSort(e, 'address')}>Address</th>
+                        <th scope="col" onClick={e => this.onSort(e, 'email')}>Email</th>
+                        <th scope="col" onClick={e => this.onSort(e, 'gender')}>Gender</th>
+                        <th scope="col" onClick={e => this.onSort(e, 'description')}>Description</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,0 +1,66 @@
+import React, { Component } from 'react';
+import axios from 'axios';
+import ReactTable from "react-table";
+
+export default class Home extends Component {
+    constructor(){
+        super();
+        this.state={
+            categories:[]
+        }
+        this.componentDidMount = this.componentDidMount.bind(this);
+
+        this.columns = [
+            {
+                Header: 'ID',
+                accessor: 'id' 
+            },
+            {
+                Header: 'Name',
+                accessor: 'name' 
+            },
+            {
+                Header: 'Address',
+                accessor: 'address' 
+            },
+            {
+                Header: 'Email',
+                accessor: 'email' 
+            },
+            {
+                Header: 'Gender',
+                accessor: 'gender' 
+            },
+            {
+                Header: 'Description',
+                accessor: 'description' 
+            }
+        ]
+
+    }
+
+    // onSort(event, sortKey){
+    //     const data = this.state.categories;
+    //     data.sort((a,b) => a[sortKey].localeCompare(b[sortKey]))
+    //     this.setState({data})
+    // }
+
+    
+    componentDidMount()
+    {
+        axios.get('http://localhost:8000/users')
+        .then(response => {
+            this.setState({categories:response.data});
+        });
+    }
+
+
+    render() {
+        return (
+                <ReactTable
+                data={this.state.categories}
+                columns={this.state.columns}
+              />
+        );
+    }
+}
